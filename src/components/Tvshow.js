@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal'
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
@@ -12,8 +13,14 @@ import './Movie.css'
 
 
 const Home = () => {
-  const [movie, setMovie] = useState([])
-  const [query, setQuery] = useState('')
+  const [movie, setMovie] = useState([]);
+  const [query, setQuery] = useState('');
+  const [name, setName] = useState('');
+  const [overview, setOverview] = useState('');
+  const [img, setImg] = useState('');
+  const [rating, setRating] = useState('');
+  const [date, setDate] = useState('');
+  const [modalShow, setModalShow] = useState(false);
   
   const searchMovies = async(e)=>{
     e.preventDefault()
@@ -39,8 +46,37 @@ const Home = () => {
     .then(data=>setMovie(data.results))
   },[])
 
+  const handleClick = (item) => {
+    setModalShow(true);
+    setName(item.name);
+    setOverview(item.overview);
+    setImg(item.poster_path);
+    setRating(item.vote_average); 
+    setDate(item.first_air_date);
+  }
+
+  function MyVerticallyCenteredModal(props) {
+    return (
+      <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
+        <Modal.Header closeButton >
+          <Modal.Title id="contained-modal-title-vcenter">
+            {name}
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body style={{display:'flex', backgroundColor:'black', color:'white'}}>
+          <img src={`https://image.tmdb.org/t/p/original/${img}`} alt='' height={'220px'} width={'180px'} />
+          <p style={{paddingLeft:'10px'}}>
+           <h4>Overview:</h4>{overview}           
+           <h4>TMDB Rating: {rating} <i class="fa-sharp fa-solid fa-star" style={{color:"gold"}}/></h4>
+           <h4>Release Date:</h4>{date}
+          </p>
+        </Modal.Body>
+      </Modal>
+    );
+  }
+
   return (
-    <div>
+    <div style={{backgroundColor:'whitesmoke'}}>
     <Navbar bg="light" expand="lg">
     <Container fluid>
       <Navbar.Brand href="#">RK Movies</Navbar.Brand>
@@ -90,25 +126,26 @@ const Home = () => {
   <div className='carddiv'>
     {movie && movie.map((item)=>{
       return(
-        <Card style={{ width: '18rem', backgroundColor:"black", color:"white", marginBottom:"1px", textAlign:"center"}}>
+        <Card onClick={()=>handleClick(item)} style={{ width: '18rem', backgroundColor:"black", color:"white", marginBottom:"3px", textAlign:"center", cursor:"pointer"}}>
           <Card.Img variant="top" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt='' />
           <Card.Body>
-          <Card.Title>{item.original_title}</Card.Title>
+          <Card.Title>{item.name}</Card.Title>
           <Card.Text>
             TMDB Rating: {item.vote_average} <i class="fa-sharp fa-solid fa-star" style={{color:"gold"}}></i>
           </Card.Text>
-          <Button variant="primary">Go somewhere</Button>
           </Card.Body>
           </Card>
         )
     })}
+    <MyVerticallyCenteredModal
+    show={modalShow}
+    onHide={() => setModalShow(false)}/>
   </div>
-
-
-
 
     </div>
   )
 }
+
+
 
 export default Home

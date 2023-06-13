@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
@@ -7,6 +8,8 @@ import Navbar from 'react-bootstrap/Navbar';
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import Card from 'react-bootstrap/Card';
+import movieTrailer from 'movie-trailer';
+import YouTube from 'react-youtube'
 import './Movie.css'
 
 
@@ -14,6 +17,16 @@ import './Movie.css'
 const Home = () => {
   const [movie, setMovie] = useState([])
   const [query, setQuery] = useState('')
+  const [trailerUrl, setTrailerUrl] = useState('')
+  const values = [true, 'xxl-down'];
+  const [fullscreen, setFullscreen] = useState(true);
+  const [show, setShow] = useState(false);
+  const [movieName, setMovieName] = useState('');
+
+  function handleShow(breakpoint) {
+    setFullscreen(breakpoint);
+    setShow(true);
+  }
  
   
   const searchMovies = async(e)=>{
@@ -40,10 +53,30 @@ const Home = () => {
     .then(data=>setMovie(data.results))
   },[])
 
+  const handleClick = (item) => {
+    setMovieName(item.title);
+    movieTrailer(item.title)
+    .then((url) => {
+      const urlParams = new URLSearchParams(new URL(url).search);
+      setTrailerUrl(urlParams.get('v'));
+      handleShow(values)
+    })
+    .catch((error) => {
+      console.log('Error fetching trailer:', error);
+    });
+  };
+
+  const opts = {
+    height: "570",
+    width: "100%",
+    playerVars: {
+        autoplay: 1,
+    }
+}
 
 
   return (
-    <div>
+    <div style={{backgroundColor:'black'}}>
     <Navbar bg="light" expand="lg">
     <Container fluid>
       <Navbar.Brand href="#">RK Movies</Navbar.Brand>
@@ -83,7 +116,7 @@ const Home = () => {
                 <h1>{item.original_title}</h1>
                 <p>{item.overview}</p>        
                 <p>{item.vote_average} <i className="fa-sharp fa-solid fa-star" style={{color:"gold"}}></i></p> 
-                <Button variant="primary" style={{backgroundColor: 'white', color:'black'}}>Watch Trailer</Button>       
+                <Button onClick={()=>handleClick(item)} variant="primary" style={{backgroundColor: 'white', color:'black'}}>Watch Trailer</Button>       
              </div>
           </div>
         </header>
@@ -94,7 +127,7 @@ const Home = () => {
   <div className='carddiv'>
     {movie && movie.map((item)=>{
       return(
-        <Card key={item.id} style={{ width: '18rem', backgroundColor:"black", color:"white", marginBottom:"1px", textAlign:"center"}}>
+        <Card  onClick={() => handleClick(item)}  key={item.id} style={{ width: '18rem', backgroundColor:"grey", color:"white", marginBottom:"3px", textAlign:"center", cursor:'pointer'}}>
           <Card.Img variant="top" src={`https://image.tmdb.org/t/p/original/${item.poster_path}`} alt='' />
           <Card.Body>
           <Card.Title>{item.original_title}</Card.Title>
@@ -107,9 +140,16 @@ const Home = () => {
         )
     })}
   </div>
-
+  <div>
+    <Modal show={show} fullscreen={fullscreen} onHide={() => setShow(false)} >
+    <Modal.Header closeButton>
+    <Modal.Title>{movieName} Trailer</Modal.Title>
+    </Modal.Header>
+    <Modal.Body  className='Modal'> {trailerUrl && <YouTube videoId = {trailerUrl} opts = {opts}/> }</Modal.Body>
+    </Modal>
     </div>
-  )
-}
+    </div>
+    )
+  }
 
 export default Home

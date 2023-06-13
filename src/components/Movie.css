@@ -4,4 +4,18 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-}   
+}  
+
+h4{
+    padding-top: 10px;
+}
+
+.ModalHeader{
+    text-align: center;
+    background-color: black;
+}
+
+.Modal{
+    background-color: black;
+    color: white;
+}

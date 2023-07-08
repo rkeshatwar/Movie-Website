@@ -79,7 +79,7 @@ const Home = () => {
     <div style={{backgroundColor:'whitesmoke'}}>
     <Navbar bg="light" expand="lg">
     <Container fluid>
-      <Navbar.Brand href="#">RK Movies</Navbar.Brand>
+      <Navbar.Brand href="/">RK Movies</Navbar.Brand>
       <Navbar.Toggle aria-controls="navbarScroll" />
       <Navbar.Collapse id="navbarScroll">
         <Nav
@@ -87,7 +87,7 @@ const Home = () => {
           style={{ maxHeight: '100px' }}
           navbarScroll
         >
-          <Nav.Link href="/">Home</Nav.Link>
+          <Nav.Link href="/">Movies</Nav.Link>
           <Nav.Link href="/tvshow">Tvshow</Nav.Link>
         </Nav>
         <Form className="d-flex" onSubmit={searchMovies}>
@@ -113,9 +113,9 @@ const Home = () => {
             <div className='headerdiv'>
             <img src={`https://image.tmdb.org/t/p/original/${item.backdrop_path}`} alt=''></img>
               <p className='legend'>
-                <h1>{item.original_title}</h1>
+                <h1>{item.name}</h1>
                 <p>{item.overview}</p>        
-                <p>{item.vote_average} <i class="fa-sharp fa-solid fa-star" style={{color:"gold"}}></i></p>        
+                <p>TMDB Rating: {item.vote_average} <i class="fa-sharp fa-solid fa-star" style={{color:"gold"}}></i></p>        
              </p>
           </div>
         </header>
@@ -141,6 +141,17 @@ const Home = () => {
     show={modalShow}
     onHide={() => setModalShow(false)}/>
   </div>
+
+    <div class="footer">
+      <div class="share" style={{backgroundColor:"#605E5E"}}>
+        <a href="https://www.facebook.com/" target="_blank" style={{color:'white', textDecoration:'none', paddingLeft:'3%', paddingRight:'3%'}}> <i class="fab fa-facebook-f"></i> facebook </a>
+        <a href="https://twitter.com/" target="_blank" style={{color:'white', textDecoration:'none', paddingLeft:'3%', paddingRight:'3%'}}> <i class="fab fa-twitter"></i> twitter </a>
+        <a href="https://www.instagram.com/" target="_blank" style={{color:'white', textDecoration:'none', paddingLeft:'3%', paddingRight:'3%'}}> <i class="fab fa-instagram"></i> instagram </a>
+        <a href="https://in.linkedin.com/" target="_blank" style={{color:'white', textDecoration:'none', paddingLeft:'3%', paddingRight:'3%'}}> <i class="fab fa-linkedin"></i> linkedin </a>
+        <a href="https://wa.me/+91" target="_blank" style={{color:'white', textDecoration:'none', paddingLeft:'3%', paddingRight:'3%'}}> <i class="fab fa-whatsapp"></i> whatsapp </a>
+        <a href="tel:+91" target="_blank" style={{color:'white', textDecoration:'none', paddingLeft:'3%', paddingRight:'3%'}}> <i class="fab fa-teamspeak"></i> Call us </a>
+      </div>
+    </div>
 
     </div>
   )

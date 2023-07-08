@@ -19,3 +19,11 @@ h4{
     background-color: black;
     color: white;
 }
+
+.footer .share {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 2rem 0;
+}

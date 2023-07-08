@@ -67,7 +67,7 @@ const Home = () => {
   };
 
   const opts = {
-    height: "570",
+    height: "505px",
     width: "100%",
     playerVars: {
         autoplay: 1,
@@ -79,7 +79,7 @@ const Home = () => {
     <div style={{backgroundColor:'black'}}>
     <Navbar bg="light" expand="lg">
     <Container fluid>
-      <Navbar.Brand href="#">RK Movies</Navbar.Brand>
+      <Navbar.Brand href="/">RK Movies</Navbar.Brand>
       <Navbar.Toggle aria-controls="navbarScroll" />
       <Navbar.Collapse id="navbarScroll">
         <Nav
@@ -87,7 +87,7 @@ const Home = () => {
           style={{ maxHeight: '100px' }}
           navbarScroll
         >
-          <Nav.Link href="/">Home</Nav.Link>
+          <Nav.Link href="/">Movies</Nav.Link>
           <Nav.Link href="/tvshow">Tvshow</Nav.Link>
         </Nav>
         <Form className="d-flex" onSubmit={searchMovies}>
@@ -114,8 +114,8 @@ const Home = () => {
             <img src={`https://image.tmdb.org/t/p/original/${item.backdrop_path}`} alt=''></img>
               <div className='legend'>
                 <h1>{item.original_title}</h1>
-                <p>{item.overview}</p>        
-                <p>{item.vote_average} <i className="fa-sharp fa-solid fa-star" style={{color:"gold"}}></i></p> 
+                <p>{item.overview})</p>        
+                <p>TMDB Rating: {item.vote_average} <i className="fa-sharp fa-solid fa-star" style={{color:"gold"}}></i></p> 
                 <Button onClick={()=>handleClick(item)} variant="primary" style={{backgroundColor: 'white', color:'black'}}>Watch Trailer</Button>       
              </div>
           </div>
@@ -147,7 +147,19 @@ const Home = () => {
     </Modal.Header>
     <Modal.Body  className='Modal'> {trailerUrl && <YouTube videoId = {trailerUrl} opts = {opts}/> }</Modal.Body>
     </Modal>
+  </div>
+
+    <div class="footer">
+      <div class="share" style={{backgroundColor:"#605E5E"}}>
+        <a href="https://www.facebook.com/" target="_blank" style={{color:'white', textDecoration:'none', paddingLeft:'3%', paddingRight:'3%'}}> <i class="fab fa-facebook-f"></i> facebook </a>
+        <a href="https://twitter.com/" target="_blank" style={{color:'white', textDecoration:'none', paddingLeft:'3%', paddingRight:'3%'}}> <i class="fab fa-twitter"></i> twitter </a>
+        <a href="https://www.instagram.com/" target="_blank" style={{color:'white', textDecoration:'none', paddingLeft:'3%', paddingRight:'3%'}}> <i class="fab fa-instagram"></i> instagram </a>
+        <a href="https://in.linkedin.com/" target="_blank" style={{color:'white', textDecoration:'none', paddingLeft:'3%', paddingRight:'3%'}}> <i class="fab fa-linkedin"></i> linkedin </a>
+        <a href="https://wa.me/+91" target="_blank" style={{color:'white', textDecoration:'none', paddingLeft:'3%', paddingRight:'3%'}}> <i class="fab fa-whatsapp"></i> whatsapp </a>
+        <a href="tel:+91" target="_blank" style={{color:'white', textDecoration:'none', paddingLeft:'3%', paddingRight:'3%'}}> <i class="fab fa-teamspeak"></i> Call us </a>
+      </div>
     </div>
+
     </div>
     )
   }

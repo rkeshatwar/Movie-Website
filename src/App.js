@@ -4,6 +4,9 @@ import Home from './components/Home'
 import Tvshow from './components/Tvshow'
 
 const App = () => {
+
+  document.title = "RK-Movies"
+
   return (
     <BrowserRouter>
     <Routes>
